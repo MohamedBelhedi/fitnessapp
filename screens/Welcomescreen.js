@@ -5,7 +5,17 @@ import { Card,Title,Paragraph,Button } from 'react-native-paper';
 import { styles } from '../style/Style';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from 'axios';
 const Stack = createNativeStackNavigator();
+
+const options = {
+  method: 'GET',
+  url: 'https://low-carb-recipes.p.rapidapi.com/random',
+  headers: {
+    'X-RapidAPI-Key': '89b1d9a968msh60bd0851d8b138ep13474djsn004188407865',
+    'X-RapidAPI-Host': 'low-carb-recipes.p.rapidapi.com'
+  }
+};
 
 
 
@@ -13,6 +23,7 @@ const Stack = createNativeStackNavigator();
 export default function Home({navigation}) {
   const [greeting,setGreeting]=useState("Hallo")
   const [btnText1,setbtnText1]=useState("ok")
+  const[recipes,setRecipes]=useState([])
 
 const uhr=new Date().getHours()
 useEffect(()=>{
@@ -20,9 +31,26 @@ useEffect(()=>{
   {uhr>12?setGreeting("Guten Tag viel Spaß beim training"):greeting}
   {uhr<12?setGreeting("Guten Morgen viel Spaß beim training"):greeting}
 
-
+fetchData()
 
 },[])
+
+const fetchData=()=>{
+
+
+
+
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+    setRecipes(response.data.steps&&response.data.tags) // das bearbeiten
+    // setRecipes(response.data.tags)
+
+  }).catch(function (error) {
+    console.error(error.message);
+  });
+
+}
   return (
     <>
     <View style={styles.container}>
@@ -67,7 +95,20 @@ useEffect(()=>{
     </View>
     
     </ScrollView>
+    <View style={styles.row}>
+    <Text>Random Recipe</Text>
+    {recipes.map((recipe)=>(
+      <>
+      <Text>{recipe}</Text>
+      <Text>{recipe}</Text>
+      </>
+      
+      ))
     
+    }
+ 
+    
+    </View>
     
     </View>
 
