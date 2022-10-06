@@ -29,41 +29,42 @@ useEffect(()=>{
       <Text>{greeting}</Text>
       <StatusBar style="auto" />
    
-    <ScrollView>
+    <ScrollView horizontal={true}>
+    <View style={styles.row}>
     <View>
-    <Card.Content>
+    <Card.Content style={styles.card}>
     <Title>Card title</Title>
     <Paragraph>Card content</Paragraph>
   </Card.Content>
   <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
   <Card.Actions>
-    <Button>Cancel</Button>
+    
     <Button onPress={()=>{navigation.navigate("Beine")}}>{btnText1}</Button>
   </Card.Actions>
     </View>
     <View>
-    <Card.Content>
+    <Card.Content style={styles.card}>
     <Title>Card title</Title>
     <Paragraph>Card content</Paragraph>
   </Card.Content>
   <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
   <Card.Actions>
-    <Button>Cancel</Button>
-    <Button>Ok</Button>
+  <Button onPress={()=>{navigation.navigate("Beine")}}>{btnText1}</Button>
+   
   </Card.Actions>
     </View>
     <View>
-    <Card.Content>
+    <Card.Content style={styles.card} >
     <Title>Card title</Title>
     <Paragraph>Card content</Paragraph>
   </Card.Content>
   <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
   <Card.Actions>
-    <Button>Cancel</Button>
-    <Button >{/*btnText1*/}</Button>
+  
+    <Button >{btnText1}</Button>
   </Card.Actions>
     </View>
-    
+    </View>
     
     </ScrollView>
     
