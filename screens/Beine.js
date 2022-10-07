@@ -16,19 +16,22 @@ const [rep2,setRep2]=useState("")
 const [rep3,setRep3]=useState("")
 const [rep4,setRep4]=useState("")
 const [gesamt,setGesamt]=useState("")
+const [gesamtWiederholung,setGesamtWiederholung]=useState("")
 const [titeText,setTitleText]=useState("Hallo")
 const countSatz=()=>{
 
 console.log("Hallo!")
 
 gesamtSumme=parseInt(text1)+parseInt(text2)+parseInt(text3)
+
 // setGesamt(Number(text1+text2+text3))
 setGesamt(gesamtSumme)
 
 }
 
 const countreps=()=>{
-
+  gesamtReps=parseInt(rep1)+parseInt(rep2)+parseInt(rep3)
+  setGesamtWiederholung(gesamtReps)
 console.log("hallo!2")
 
 }
@@ -48,6 +51,13 @@ console.log("hallo!2")
         placeholder="Satz"
         keyboardType="numeric"
       />
+        <TextInput
+        style={styles.input}
+        onChangeText={setRep1}
+        value={rep1}
+        placeholder="Wiederholung"
+        keyboardType="numeric"
+      />
      
       <Image
         style={styles.tinyLogo}
@@ -62,6 +72,13 @@ console.log("hallo!2")
         onChangeText={onChangeText2}
         value={text2}
         placeholder="Satz"
+        keyboardType="numeric"
+      />
+        <TextInput
+        style={styles.input}
+        onChangeText={setRep2}
+        value={rep2}
+        placeholder="Wiederholung"
         keyboardType="numeric"
       />
      
@@ -80,6 +97,13 @@ console.log("hallo!2")
         placeholder="Satz"
         keyboardType="numeric"
       />
+        <TextInput
+        style={styles.input}
+        onChangeText={setRep3}
+        value={rep3}
+        placeholder="Wiederholung"
+        keyboardType="numeric"
+      />
      
       <Image
         style={styles.tinyLogo}
@@ -89,7 +113,11 @@ console.log("hallo!2")
 
 <Button onPress={()=>{countSatz();countreps()}} title="Gesamtübung"/>
 
-<View><Text>{gesamt}</Text></View>
+<View>
+<Text>Sätze:{gesamt}</Text>
+<Text>Reps:{gesamtWiederholung}</Text>
+
+</View>
          </View>
 
          
