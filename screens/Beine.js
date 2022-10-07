@@ -1,6 +1,6 @@
 
 import React, { useState,useEffect } from 'react';
-import {Text, View,TextInput,Image,Button} from 'react-native';
+import {Text, View,TextInput,Image,Button,Alert} from 'react-native';
 import { styles } from '../style/Style';
 
 
@@ -18,11 +18,17 @@ const [rep4,setRep4]=useState("")
 const [gesamt,setGesamt]=useState("")
 const [gesamtWiederholung,setGesamtWiederholung]=useState("")
 const [titeText,setTitleText]=useState("Hallo")
+
+const [goal,setGoal]=useState("")
 const countSatz=()=>{
 
 console.log("Hallo!")
 
+text1,text2,text3===NaN?Alert.alert("keine Null werte"):null
+
+
 gesamtSumme=parseInt(text1)+parseInt(text2)+parseInt(text3)
+
 
 // setGesamt(Number(text1+text2+text3))
 setGesamt(gesamtSumme)
@@ -35,12 +41,31 @@ const countreps=()=>{
 console.log("hallo!2")
 
 }
+const trainingFinish=()=>{
+
+const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
+{gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
+
+
+
+}
 
 
 
     return(
         <View style={styles.welcomeScreen}>
         <Text>{titeText}</Text>
+      
+        <View style={styles.row}>
+        <Text>Ziel:</Text>
+      <TextInput
+      style={styles.input}
+      onChangeText={setGoal}
+      value={goal}
+      placeholder="Ziel"
+      keyboardType="numeric"
+    />
+    </View>
         <Text>BeinPresse</Text>
 
         <View style={styles.row}>
@@ -112,10 +137,18 @@ console.log("hallo!2")
       </View>
 
 <Button onPress={()=>{countSatz();countreps()}} title="Gesamtübung"/>
+<Button onPress={()=>{
+
+trainingFinish()
+
+
+}} title="Fertig"/>
 
 <View>
 <Text>Sätze:{gesamt}</Text>
 <Text>Reps:{gesamtWiederholung}</Text>
+
+
 
 </View>
          </View>

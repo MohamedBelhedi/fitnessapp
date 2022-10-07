@@ -43,5 +43,14 @@ flexDirection:'row',
     justifyContent: 'center',
    
 
+   },cardDistance:{
+margin:10
+
+
+   },
+   btn:{
+margin:20
+
+
    }
   });

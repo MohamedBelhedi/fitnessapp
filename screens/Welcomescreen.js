@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View,TouchableHighlight } from 'react-native';
 import  React,{useState,useEffect} from 'react'
 import { Card,Title,Paragraph,Button } from 'react-native-paper';
 import { styles } from '../style/Style';
@@ -31,10 +31,10 @@ export default function Home({navigation}) {
 const uhr=new Date().getHours()
 useEffect(()=>{
   {uhr>16?setGreeting("Guten Abend viel Spaß beim training"):greeting}
-  {uhr>12?setGreeting("Guten Tag viel Spaß beim training"):greeting}
+  {uhr<=16?setGreeting("Guten Tag viel Spaß beim training"):greeting}
   {uhr<12?setGreeting("Guten Morgen viel Spaß beim training"):greeting}
 
-fetchData()
+// fetchData()
 
 setTimeout(()=>{
 
@@ -45,6 +45,8 @@ setLoading(false)
 
 },[])
 
+
+
 const fetchData=async()=>{
 
 
@@ -53,7 +55,8 @@ const fetchData=async()=>{
   
   await axios.request(options).then(function (response) {
     console.log(response.data);
-    setRecipes(response.data.steps) // das bearbeiten
+    // setRecipes(response.data.steps)
+     // das bearbeiten
     // setRecipes(response.data.tags)
 
   }).catch(function (error) {
@@ -75,44 +78,53 @@ const fetchData=async()=>{
    
     <ScrollView horizontal={true}>
     <View style={styles.row}>
-    <View>
+    <View style={styles.cardDistance}>
     <Card.Content style={styles.card}>
-    <Title>Card title</Title>
-    <Paragraph>Card content</Paragraph>
+    <Title>BeinTraining</Title>
+    <Paragraph>Beine Trainieren</Paragraph>
   </Card.Content>
-  <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+  <TouchableHighlight onPress={async()=>{
+    setLoading(true)
+    
+     await setTimeout(()=>{
+
+      navigation.navigate("Beine")
+
+
+    },3000)
+  
+  }}>
+
+  
+  <Card.Cover  source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
+  </TouchableHighlight>
   <Card.Actions>
-    
-    <Button onPress={async()=>{
-      setLoading(true)
-      
-       await setTimeout(()=>{
 
-        navigation.navigate("Beine")
-
-
-      },3000)
-    
-    }}>{btnText1}</Button>
   </Card.Actions>
     </View>
-    <View>
+    <View style={styles.cardDistance} >
     <Card.Content style={styles.card}>
     <Title>Card title</Title>
     <Paragraph>Card content</Paragraph>
   </Card.Content>
-  <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+  <TouchableHighlight onPress={()=>{navigation.navigate("Beine")}}>
+  <Card.Cover  source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
+  
+  
+  </TouchableHighlight>
   <Card.Actions>
-  <Button onPress={()=>{navigation.navigate("Beine")}}>{btnText1}</Button>
+  <View style={styles.btn} >
+
+  </View>
    
   </Card.Actions>
     </View>
-    <View>
+    <View style={styles.cardDistance}>
     <Card.Content style={styles.card} >
     <Title>Card title</Title>
     <Paragraph>Card content</Paragraph>
   </Card.Content>
-  <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+  <Card.Cover source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
   <Card.Actions>
   
     <Button >{btnText1}</Button>
@@ -122,26 +134,29 @@ const fetchData=async()=>{
     
     </ScrollView>
     <Text>{errorBound}</Text>
+
+ 
     <ScrollView>
-    <View style={styles.row}>
+    
     <Text>Random Recipe</Text>
-    {recipes.map((recipe)=>(
-      <>
-      <Text>{recipe}</Text>
-      <Text>{recipe}</Text>
-      </>
+    {
+      // recipes.map((recipe)=>(
+      // <>
+      // <Text>{recipe}</Text>
+      // <Text>{recipe}</Text>
+      // </>
       
-      ))
+      // ))
     
     }
  
     
-    </View>
+   
 
     
     
     </ScrollView>
-   
+
     
     </View>
 
