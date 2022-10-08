@@ -52,5 +52,13 @@ margin:10
 margin:20
 
 
-   }
+   },
+   bottView:{
+alignItems:'center',
+margin:50,
+backgroundColor:"#9ad8f5",
+fontSize:50,
+
+   },
+
   });

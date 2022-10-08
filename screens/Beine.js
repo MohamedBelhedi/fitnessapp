@@ -2,8 +2,23 @@
 import React, { useState,useEffect } from 'react';
 import {Text, View,TextInput,Image,Button,Alert} from 'react-native';
 import { styles } from '../style/Style';
+import { db } from '../config';
+import { initializeApp } from 'firebase/app';
+import { 
+  addDoc, 
+  collection, 
+  doc,
+  getDoc, 
+  setDoc,
+  updateDoc,
+ 
 
+  getDocs,
 
+  
+} from 'firebase/firestore';
+
+const datum=JSON.stringify(new Date().getUTCDate())
 
 
 const Beine = () => {
@@ -18,16 +33,18 @@ const [rep4,setRep4]=useState("")
 const [gesamt,setGesamt]=useState("")
 const [gesamtWiederholung,setGesamtWiederholung]=useState("")
 const [titeText,setTitleText]=useState("Hallo")
+const [trainingsEinheit,setTEH]=useState("Beine")
 
 const [goal,setGoal]=useState("")
 const countSatz=()=>{
 
 console.log("Hallo!")
 
-text1,text2,text3===NaN?Alert.alert("keine Null werte"):null
 
 
 gesamtSumme=parseInt(text1)+parseInt(text2)+parseInt(text3)
+text1,text2,text3===NaN?Alert.alert("keine Null werte"):null
+
 
 
 // setGesamt(Number(text1+text2+text3))
@@ -41,10 +58,17 @@ const countreps=()=>{
 console.log("hallo!2")
 
 }
-const trainingFinish=()=>{
+const trainingFinish=async()=>{
 
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 {gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
+const docRef = await setDoc(doc(db, trainingsEinheit,datum), {
+  name: trainingsEinheit,
+  datum:datum,
+  hallo:"hallo"
+});
+
+
 
 
 
@@ -53,8 +77,8 @@ const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 
 
     return(
+      <>
         <View style={styles.welcomeScreen}>
-        <Text>{titeText}</Text>
       
         <View style={styles.row}>
         <Text>Ziel:</Text>
@@ -144,15 +168,18 @@ trainingFinish()
 
 }} title="Fertig"/>
 
-<View>
-<Text>Sätze:{gesamt}</Text>
+
+         </View>
+         <View style={styles.bottView}>
+        <Text style={{fontSize:20}}>{titeText}</Text>
+
+<Text >Sätze:{gesamt}</Text>
 <Text>Reps:{gesamtWiederholung}</Text>
 
-
+{/* entweder über eine interne APP JSON abspeichern das abgeschlosssne Training oder über Firebase und Abrufen */}
 
 </View>
-         </View>
-
+</>
          
     );
 

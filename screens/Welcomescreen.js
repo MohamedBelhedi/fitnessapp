@@ -7,6 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Spinner from 'react-native-loading-spinner-overlay';
 import axios from 'axios';
+import { db } from '../config';
+import { initializeApp } from 'firebase/app';
+import { doc,getDoc } from 'firebase/firestore';
 const Stack = createNativeStackNavigator();
 
 const options = {
@@ -27,6 +30,24 @@ export default function Home({navigation}) {
   const[recipes,setRecipes]=useState([])
   const[errorBound,setErrorBound]=useState([])
   const [loading,setLoading]=useState(false)
+  const [trainingsEinheit,setTEH]=useState("Beine")
+  const datum_welcome_screen=JSON.stringify(new Date().getUTCDate())
+
+  const trainingAufruf=async()=>{
+
+    const docRef = doc(db, trainingsEinheit,datum_welcome_screen );
+const docSnap = await getDoc(docRef);
+const aktuellDatum=JSON.stringify(new Date().getUTCDate())
+
+{datum_welcome_screen===aktuellDatum?setGreeting(`heute ist der ${datum_welcome_screen} und letzemal hast du${docSnap.data().name} trainiert`):setGreeting(greeting)}
+
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+} else {
+  // doc.data() will be undefined in this case
+  console.log("No such document!");
+}
+  }
 
 const uhr=new Date().getHours()
 useEffect(()=>{
@@ -35,6 +56,7 @@ useEffect(()=>{
   {uhr<12?setGreeting("Guten Morgen viel Spaß beim training"):greeting}
 
 // fetchData()
+trainingAufruf()
 
 setTimeout(()=>{
 
