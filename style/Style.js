@@ -29,7 +29,7 @@ flexDirection:'row',
    }
    ,card:{
 
-    width:150,
+    width:100,
     margin:20
    
 
@@ -50,6 +50,12 @@ margin:10
    },
    btn:{
 margin:20
+
+
+   },
+   überschrift:{
+fontSize:20,
+color:"red"
 
 
    },

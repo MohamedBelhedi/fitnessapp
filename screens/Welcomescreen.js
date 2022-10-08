@@ -39,10 +39,13 @@ export default function Home({navigation}) {
 const docSnap = await getDoc(docRef);
 const aktuellDatum=JSON.stringify(new Date().getUTCDate())
 
-{datum_welcome_screen===aktuellDatum?setGreeting(`heute ist der ${datum_welcome_screen} und letzemal hast du${docSnap.data().name} trainiert`):setGreeting(greeting)}
+// {datum_welcome_screen===aktuellDatum?setGreeting(`heute ist der ${datum_welcome_screen} und letzemal hast du${docSnap.data().name} trainiert`):setGreeting(greeting)}
+
+
 
 if (docSnap.exists()) {
   console.log("Document data:", docSnap.data());
+  setGreeting(`Das Letzte Training war ${docSnap.data().name}`)
 } else {
   // doc.data() will be undefined in this case
   console.log("No such document!");
@@ -56,7 +59,14 @@ useEffect(()=>{
   {uhr<12?setGreeting("Guten Morgen viel Spaß beim training"):greeting}
 
 // fetchData()
-trainingAufruf()
+
+setTimeout(()=>{
+
+  trainingAufruf()
+
+
+
+},3000)
 
 setTimeout(()=>{
 
@@ -95,7 +105,7 @@ const fetchData=async()=>{
     textContent={'Loading...'}
     textStyle={styles.spinnerTextStyle}
   />
-      <Text>{greeting}</Text>
+      <Text style={styles.überschrift}>{greeting}</Text>
       <StatusBar style="auto" />
    
     <ScrollView horizontal={true}>
@@ -141,17 +151,24 @@ const fetchData=async()=>{
    
   </Card.Actions>
     </View>
-    <View style={styles.cardDistance}>
-    <Card.Content style={styles.card} >
-    <Title>Card title</Title>
-    <Paragraph>Card content</Paragraph>
+    <View style={styles.cardDistance} >
+    <Card.Content style={styles.card}>
+    <Title>BrustTraining</Title>
+    <Paragraph>Die Brust trainieren</Paragraph>
   </Card.Content>
-  <Card.Cover source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
-  <Card.Actions>
+  <TouchableHighlight onPress={()=>{navigation.navigate("Brust")}}>
+  <Card.Cover  source={require('../assets/fitnessbilder/Brust/chest.jpg')} />
   
-    <Button >{btnText1}</Button>
+  
+  </TouchableHighlight>
+  <Card.Actions>
+  <View style={styles.btn} >
+
+  </View>
+   
   </Card.Actions>
     </View>
+
     </View>
     
     </ScrollView>
