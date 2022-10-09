@@ -162,10 +162,10 @@ const fetchData=async()=>{
     </View>
     <View style={styles.cardDistance} >
     <Card.Content style={styles.card}>
-    <Title>Card title</Title>
-    <Paragraph>Card content</Paragraph>
+    <Title>Schultern</Title>
+    <Paragraph>SChulter trainieren</Paragraph>
   </Card.Content>
-  <TouchableHighlight onPress={()=>{navigation.navigate("Beine")}}>
+  <TouchableHighlight onPress={()=>{navigation.navigate("Schulter")}}>
   <Card.Cover  source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
   
   
