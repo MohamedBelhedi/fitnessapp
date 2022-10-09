@@ -1,4 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { ScrollView, Text, View,TouchableHighlight } from 'react-native';
 import  React,{useState,useEffect} from 'react'
 import { Card,Title,Paragraph,Button } from 'react-native-paper';
@@ -31,21 +33,33 @@ export default function Home({navigation}) {
   const[errorBound,setErrorBound]=useState([])
   const [loading,setLoading]=useState(false)
   const [trainingsEinheit,setTEH]=useState("Beine")
-  const datum_welcome_screen=JSON.stringify(new Date().getUTCDate())
+  const[daten, setDaten]=useState([])
+  const [store,setStore]=useState([])
+  
+  // ####### Datum#####################
+  const datum=JSON.stringify(new Date().getUTCDate())
+  const month=JSON.stringify(new Date().getUTCMonth())
+  const jahr=JSON.stringify(new Date().getUTCFullYear())
+
+  // ###########ende#################
 
   const trainingAufruf=async()=>{
+  const datum_comp=`${datum}.${month}.${jahr}`
 
-    const docRef = doc(db, trainingsEinheit,datum_welcome_screen );
+
+    const docRef = doc(db, trainingsEinheit,datum_comp);
 const docSnap = await getDoc(docRef);
 const aktuellDatum=JSON.stringify(new Date().getUTCDate())
 
 // {datum_welcome_screen===aktuellDatum?setGreeting(`heute ist der ${datum_welcome_screen} und letzemal hast du${docSnap.data().name} trainiert`):setGreeting(greeting)}
 
-
+{aktuellDatum?setGreeting(store):null}
 
 if (docSnap.exists()) {
   console.log("Document data:", docSnap.data());
-  setGreeting(`Das Letzte Training war ${docSnap.data().name}`)
+  // setGreeting(`Das Letzte Training war ${docSnap.data().name}`)
+setDaten(docSnap.data())
+
 } else {
   // doc.data() will be undefined in this case
   console.log("No such document!");
@@ -59,7 +73,10 @@ useEffect(()=>{
   {uhr<12?setGreeting("Guten Morgen viel Spaß beim training"):greeting}
 
 // fetchData()
-
+ setInterval(() => {
+getStore()
+  
+ }, 10000);
 setTimeout(()=>{
 
   trainingAufruf()
@@ -78,6 +95,15 @@ setLoading(false)
 },[])
 
 
+const getStore=async()=>{
+
+  const value = await AsyncStorage.getItem('training')
+
+  console.log(value)
+  setStore(value)
+
+
+}
 
 const fetchData=async()=>{
 
@@ -177,7 +203,24 @@ const fetchData=async()=>{
  
     <ScrollView>
     
-    <Text>Random Recipe</Text>
+    {/*<Text>Random Recipe</Text>*/}
+
+    <Paragraph>
+    
+    
+
+
+      <Text>
+      TrainingsEinheiten: {daten.name }
+   
+      
+      
+      </Text>
+      <Text> Datum: {daten.datum}</Text>
+
+    
+    
+    </Paragraph>
     {
       // recipes.map((recipe)=>(
       // <>

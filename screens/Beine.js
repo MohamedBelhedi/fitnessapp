@@ -1,6 +1,7 @@
 
 import React, { useState,useEffect } from 'react';
 import {Text, View,TextInput,Image,Button,Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '../style/Style';
 import { db } from '../config';
 import { initializeApp } from 'firebase/app';
@@ -19,6 +20,8 @@ import {
 } from 'firebase/firestore';
 
 const datum=JSON.stringify(new Date().getUTCDate())
+const month=JSON.stringify(new Date().getUTCMonth())
+const jahr=JSON.stringify(new Date().getUTCFullYear())
 
 
 const Beine = () => {
@@ -42,7 +45,7 @@ console.log("Hallo!")
 
 
 
-gesamtSumme=parseInt(text1)+parseInt(text2)+parseInt(text3)
+const gesamtSumme=parseInt(text1)+parseInt(text2)+parseInt(text3)
 text1,text2,text3===NaN?Alert.alert("keine Null werte"):null
 
 
@@ -53,20 +56,27 @@ setGesamt(gesamtSumme)
 }
 
 const countreps=()=>{
-  gesamtReps=parseInt(rep1)+parseInt(rep2)+parseInt(rep3)
+ const gesamtReps=parseInt(rep1)+parseInt(rep2)+parseInt(rep3)
   setGesamtWiederholung(gesamtReps)
 console.log("hallo!2")
 
 }
 const trainingFinish=async()=>{
+  const datum_comp=`${datum}.${month}.${jahr}`
 
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 {gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
-const docRef = await setDoc(doc(db, trainingsEinheit,datum), {
+const docRef = await setDoc(doc(db, trainingsEinheit,datum_comp), {
   name: trainingsEinheit,
-  datum:datum,
-  hallo:"hallo"
+  datum:datum_comp,
+ 
 });
+const val=`letzes mal hast du  ${trainingsEinheit}` 
+try {
+  await AsyncStorage.setItem('training', val)
+} catch (e) {
+  // saving error
+}
 
 
 
@@ -176,7 +186,10 @@ trainingFinish()
 <Text >Sätze:{gesamt}</Text>
 <Text>Reps:{gesamtWiederholung}</Text>
 
-{/* entweder über eine interne APP JSON abspeichern das abgeschlosssne Training oder über Firebase und Abrufen */}
+{/* entweder über eine interne APP JSON abspeichern das abgeschlosssne Training oder über Firebase und Abrufen
+den Storage über den aufruf der Seite abspeicher auf welcher Seite erwar und dann ausgeben oben als Tex das man weiß was man trainiert hat
+
+*/}
 
 </View>
 </>

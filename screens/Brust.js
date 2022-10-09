@@ -1,6 +1,8 @@
 
 import React, { useState,useEffect } from 'react';
 import {Text, View,TextInput,Image,Button,Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { styles } from '../style/Style';
 import { db } from '../config';
 import { initializeApp } from 'firebase/app';
@@ -68,9 +70,15 @@ const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 const docRef = await setDoc(doc(db, trainingsEinheit,`${datum} ${month} ${jahr}`), {
   name: trainingsEinheit,
   datum:datum,
-  hallo:"hallo"
+
 });
 
+const val=`letzes mal hast du  ${trainingsEinheit}`
+try {
+  await AsyncStorage.setItem('training', val)
+} catch (e) {
+  // saving error
+}
 
 
 
