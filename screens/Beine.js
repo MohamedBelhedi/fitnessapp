@@ -66,12 +66,12 @@ const trainingFinish=async()=>{
 
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 {gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
-const docRef = await setDoc(doc(db, trainingsEinheit,datum_comp), {
+const docRef = await setDoc(doc(db, trainingsEinheit,trainingsEinheit.toLowerCase()), {
   name: trainingsEinheit,
   datum:datum_comp,
  
 });
-const val=`letzes mal hast du  ${trainingsEinheit}` 
+const val=`letzes mal hast du  ${trainingsEinheit} trainiert` 
 try {
   await AsyncStorage.setItem('training', val)
 } catch (e) {
@@ -188,7 +188,7 @@ trainingFinish()
 
 {/* entweder über eine interne APP JSON abspeichern das abgeschlosssne Training oder über Firebase und Abrufen
 den Storage über den aufruf der Seite abspeicher auf welcher Seite erwar und dann ausgeben oben als Tex das man weiß was man trainiert hat
-
+nächste idee
 */}
 
 </View>

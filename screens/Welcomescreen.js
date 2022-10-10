@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { ScrollView, Text, View,TouchableHighlight } from 'react-native';
+import { ScrollView, Text, View,TouchableHighlight,TextInput,Button } from 'react-native';
 import  React,{useState,useEffect} from 'react'
-import { Card,Title,Paragraph,Button } from 'react-native-paper';
+import { Card,Title,Paragraph } from 'react-native-paper';
 import { styles } from '../style/Style';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -28,6 +28,8 @@ const options = {
 
 export default function Home({navigation}) {
   const [greeting,setGreeting]=useState("Hallo")
+  const[lastTraining,setLasTraining]=useState("")
+  const[search,setSearch]=useState("")
   const [btnText1,setbtnText1]=useState("ok")
   const[recipes,setRecipes]=useState([])
   const[errorBound,setErrorBound]=useState([])
@@ -43,17 +45,19 @@ export default function Home({navigation}) {
 
   // ###########ende#################
 
-  const trainingAufruf=async()=>{
-  const datum_comp=`${datum}.${month}.${jahr}`
+  const trainingAufruf=async(e)=>{
+  // const datum_comp=`${datum}.${month}.${jahr}`
+  // const saveVal=AsyncStorage.getItem('training')
 
 
-    const docRef = doc(db, trainingsEinheit,datum_comp);
+  
+    const docRef = doc(db, trainingsEinheit,search);
 const docSnap = await getDoc(docRef);
 const aktuellDatum=JSON.stringify(new Date().getUTCDate())
 
 // {datum_welcome_screen===aktuellDatum?setGreeting(`heute ist der ${datum_welcome_screen} und letzemal hast du${docSnap.data().name} trainiert`):setGreeting(greeting)}
 
-{aktuellDatum?setGreeting(store):null}
+// {aktuellDatum?setGreeting(store):null}
 
 if (docSnap.exists()) {
   console.log("Document data:", docSnap.data());
@@ -64,6 +68,7 @@ setDaten(docSnap.data())
   // doc.data() will be undefined in this case
   console.log("No such document!");
 }
+  
   }
 
 const uhr=new Date().getHours()
@@ -100,7 +105,9 @@ const getStore=async()=>{
   const value = await AsyncStorage.getItem('training')
 
   console.log(value)
-  setStore(value)
+  // setStore(value)
+
+setLasTraining(value)
 
 
 }
@@ -131,7 +138,10 @@ const fetchData=async()=>{
     textContent={'Loading...'}
     textStyle={styles.spinnerTextStyle}
   />
+  
+
       <Text style={styles.überschrift}>{greeting}</Text>
+      <Text style={styles.überschrift}>{lastTraining}</Text>
       <StatusBar style="auto" />
    
     <ScrollView horizontal={true}>
@@ -205,6 +215,17 @@ const fetchData=async()=>{
     
     {/*<Text>Random Recipe</Text>*/}
 
+    <View style={styles.row}>
+    <TextInput
+    style={styles.input}
+    onChangeText={setSearch}
+    value={search}
+    placeholder="suche nach dein Gesamt trainining in der DB"
+    keyboardType="text"
+  />
+  <Text onPress={trainingAufruf} >suchen....</Text>
+
+    </View>
     <Paragraph>
     
     
@@ -221,6 +242,7 @@ const fetchData=async()=>{
     
     
     </Paragraph>
+
     {
       // recipes.map((recipe)=>(
       // <>
