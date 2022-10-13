@@ -1,6 +1,6 @@
 
 import React, { useState,useEffect } from 'react';
-import {Text, View,TextInput,Image,Button,Alert} from 'react-native';
+import {Text, View,TextInput,Image,Button,Alert,Switch} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { styles } from '../style/Style';
@@ -19,10 +19,14 @@ import {
 
   
 } from 'firebase/firestore';
+import { connectStorageEmulator } from 'firebase/storage';
 
-const datum=JSON.stringify(new Date().getUTCDate())
-const month=JSON.stringify(new Date().getUTCMonth())
-const jahr=JSON.stringify(new Date().getUTCFullYear())
+  // ####### Datum#####################
+  const datum=JSON.stringify(new Date().getUTCDate())
+  const month=JSON.stringify(new Date().getUTCMonth())
+  const jahr=JSON.stringify(new Date().getUTCFullYear())
+
+  // ###########ende#################
 
 
 
@@ -35,12 +39,15 @@ const [rep1,setRep1]=useState("")
 const [rep2,setRep2]=useState("")
 const [rep3,setRep3]=useState("")
 const [rep4,setRep4]=useState("")
+const [bauch,setBauch]=useState("Nein")
 const [gesamt,setGesamt]=useState("")
 const [gesamtWiederholung,setGesamtWiederholung]=useState("")
 const [titeText,setTitleText]=useState("Hallo")
 const [trainingsEinheit,setTEH]=useState("Schulter")
 
 const [goal,setGoal]=useState("")
+const [isEnabled, setIsEnabled] = useState(false);
+const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 const countSatz=()=>{
 
 console.log("Hallo!")
@@ -56,6 +63,14 @@ text1,text2,text3===NaN?Alert.alert("keine Null werte"):null
 setGesamt(gesamtSumme)
 
 }
+const Bauch=()=>{
+
+  setBauch("ja")
+  console.log(bauch)
+  
+
+
+}
 
 const countreps=()=>{
   const gesamtReps=parseInt(rep1)+parseInt(rep2)+parseInt(rep3)
@@ -64,14 +79,21 @@ console.log("hallo!2")
 
 }
 const trainingFinish=async()=>{
-
+  const datum_comp=`${datum}.${month}.${jahr}`
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
-{gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
-const docRef = await setDoc(doc(db, trainingsEinheit,`${datum} ${month} ${jahr}`), {
+{gesamtSatz>=goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
+const randint=Math.floor(Math.random() * 100)
+
+ 
+
+const docRef = await setDoc(doc(db, trainingsEinheit,`${trainingsEinheit} ${randint}`), {
   name: trainingsEinheit,
-  datum:datum,
+  datum:datum_comp,
+  bautraining:bauch
 
 });
+ 
+
 
 const val=`letzes mal hast du  ${trainingsEinheit}`
 try {
@@ -170,6 +192,19 @@ try {
         source={require('../assets/fitnessbilder/Beine/Beine.jpg')}
       />
       </View>
+
+      <View>
+      <Text>Bauchtrainiert</Text>
+      <Text>Ja oder nein</Text>
+      <Switch
+    
+      trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+      ios_backgroundColor="#3e3e3e"
+      onValueChange={()=>{Bauch(),toggleSwitch()}}
+      value={()=>{bauch,isEnabled}}
+    />
+    </View>
 
 <Button onPress={()=>{countSatz();countreps()}} title="Gesamtübung"/>
 <Button onPress={()=>{

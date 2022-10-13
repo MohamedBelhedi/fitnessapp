@@ -29,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "update 12 still on contruction"
   }
 }

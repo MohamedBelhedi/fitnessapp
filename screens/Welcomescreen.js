@@ -47,11 +47,12 @@ export default function Home({navigation}) {
 
   const trainingAufruf=async(e)=>{
   // const datum_comp=`${datum}.${month}.${jahr}`
-  // const saveVal=AsyncStorage.getItem('training')
+  const saveVal=await AsyncStorage.getItem('training')
+  console.log("SaveVal",saveVal)
 
-
+// hier mit dem for schleifen mode nach dem traing suchen
   
-    const docRef = doc(db, trainingsEinheit,search);
+    const docRef = doc(db, trainingsEinheit,saveVal);
 const docSnap = await getDoc(docRef);
 const aktuellDatum=JSON.stringify(new Date().getUTCDate())
 
@@ -62,11 +63,17 @@ const aktuellDatum=JSON.stringify(new Date().getUTCDate())
 if (docSnap.exists()) {
   console.log("Document data:", docSnap.data());
   // setGreeting(`Das Letzte Training war ${docSnap.data().name}`)
-setDaten(docSnap.data())
+  setTimeout(()=>{
+
+    setDaten(docSnap.data())
+
+
+  },3000)
 
 } else {
   // doc.data() will be undefined in this case
   console.log("No such document!");
+  setErrorBound("Nichts gefunden")
 }
   
   }
@@ -76,6 +83,7 @@ useEffect(()=>{
   {uhr>16?setGreeting("Guten Abend viel Spaß beim training"):greeting}
   {uhr<=16?setGreeting("Guten Tag viel Spaß beim training"):greeting}
   {uhr<12?setGreeting("Guten Morgen viel Spaß beim training"):greeting}
+
 
 // fetchData()
  setInterval(() => {
@@ -98,6 +106,9 @@ setLoading(false)
 },3000)
 
 },[])
+
+
+const value =  AsyncStorage.getItem('training')
 
 
 const getStore=async()=>{
@@ -123,10 +134,11 @@ const fetchData=async()=>{
     // setRecipes(response.data.steps)
      // das bearbeiten
     // setRecipes(response.data.tags)
-
+// versuche mal Firebase anzubiben mit Axios
   }).catch(function (error) {
     console.error(error);
     setErrorBound(error.message)
+    
   });
 
 }
@@ -141,7 +153,7 @@ const fetchData=async()=>{
   
 
       <Text style={styles.überschrift}>{greeting}</Text>
-      <Text style={styles.überschrift}>{lastTraining}</Text>
+      <Text style={styles.überschrift}>dein Letztes Trainig war{lastTraining}</Text>
       <StatusBar style="auto" />
    
     <ScrollView horizontal={true}>
@@ -158,7 +170,7 @@ const fetchData=async()=>{
 
       navigation.navigate("Beine")
 
-
+setLoading(false)
     },3000)
   
   }}>
@@ -175,7 +187,18 @@ const fetchData=async()=>{
     <Title>Schultern</Title>
     <Paragraph>SChulter trainieren</Paragraph>
   </Card.Content>
-  <TouchableHighlight onPress={()=>{navigation.navigate("Schulter")}}>
+  <TouchableHighlight onPress={async()=>{
+    setLoading(true)
+    
+    await setTimeout(()=>{
+      navigation.navigate("Schulter")
+
+setLoading(false)
+   },3000)
+ 
+    
+  
+  }}>
   <Card.Cover  source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
   
   
@@ -192,7 +215,15 @@ const fetchData=async()=>{
     <Title>BrustTraining</Title>
     <Paragraph>Die Brust trainieren</Paragraph>
   </Card.Content>
-  <TouchableHighlight onPress={()=>{navigation.navigate("Brust")}}>
+  <TouchableHighlight onPress={async()=>{
+setLoading(true)    
+    await setTimeout(()=>{
+
+      navigation.navigate("Brust")
+
+setLoading(false)
+    },3000)
+  }}>
   <Card.Cover  source={require('../assets/fitnessbilder/Brust/chest.jpg')} />
   
   
@@ -215,24 +246,29 @@ const fetchData=async()=>{
     
     {/*<Text>Random Recipe</Text>*/}
 
-    <View style={styles.row}>
+   {/* 
     <TextInput
     style={styles.input}
     onChangeText={setSearch}
+    // onKeyPress={}
     value={search}
     placeholder="suche nach dein Gesamt trainining in der DB"
     keyboardType="text"
-  />
-  <Text onPress={trainingAufruf} >suchen....</Text>
-
+/>*/}
+{ /*  <Text onPress={trainingAufruf} >suchen....</Text>*/}
+<View style={styles.row}>
     </View>
-    <Paragraph>
+    {!daten?<Text>Daten zu dein Letzten Training werden geladen bitte warten....</Text>:
+      <Paragraph>
     
     
 
 
       <Text>
-      TrainingsEinheiten: {daten.name }
+      <Text>{errorBound}</Text>
+     
+     
+    TrainingsEinheiten: {daten.name }
    
       
       
@@ -242,6 +278,7 @@ const fetchData=async()=>{
     
     
     </Paragraph>
+    }
 
     {
       // recipes.map((recipe)=>(

@@ -18,11 +18,12 @@ export default function App() {
     <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen
+      style={{backgroundColor:"blue"}}
         name="Home"
         component={Home}
         options={{ title: 'Home' }}
       />
-      <Stack.Screen name="Beine" component={Beine} />
+    <Stack.Screen  name="Beine" component={Beine} />
       <Stack.Screen name="Brust" component={Brust} />
       <Stack.Screen name="Schulter" component={Schulter} />
     </Stack.Navigator>

@@ -20,7 +20,7 @@ import {
 } from 'firebase/firestore';
 
 const datum=JSON.stringify(new Date().getUTCDate())
-const month=JSON.stringify(new Date().getUTCMonth())
+const month=JSON.stringify(new Date().getUTCMonth())+1
 const jahr=JSON.stringify(new Date().getUTCFullYear())
 
 
@@ -66,12 +66,14 @@ const trainingFinish=async()=>{
 
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 {gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
-const docRef = await setDoc(doc(db, trainingsEinheit,trainingsEinheit.toLowerCase()), {
+const docRef = await setDoc(doc(db, trainingsEinheit,trainingsEinheit), {
   name: trainingsEinheit,
   datum:datum_comp,
+  gesamt:gesamtSatz,
+  reps:gesamtWiederholung
  
 });
-const val=`letzes mal hast du  ${trainingsEinheit} trainiert` 
+const val= trainingsEinheit
 try {
   await AsyncStorage.setItem('training', val)
 } catch (e) {
