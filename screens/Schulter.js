@@ -23,7 +23,7 @@ import { connectStorageEmulator } from 'firebase/storage';
 
   // ####### Datum#####################
   const datum=JSON.stringify(new Date().getUTCDate())
-  const month=JSON.stringify(new Date().getUTCMonth())
+  const month=JSON.stringify(new Date().getUTCMonth())+1
   const jahr=JSON.stringify(new Date().getUTCFullYear())
 
   // ###########ende#################
@@ -82,20 +82,23 @@ const trainingFinish=async()=>{
   const datum_comp=`${datum}.${month}.${jahr}`
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 {gesamtSatz>=goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}
-const randint=Math.floor(Math.random() * 100)
+// const randint=Math.floor(Math.random() * 100)
 
  
-
-const docRef = await setDoc(doc(db, trainingsEinheit,`${trainingsEinheit} ${randint}`), {
+// `${trainingsEinheit} ${randint}`
+const docRef = await setDoc(doc(db, trainingsEinheit,trainingsEinheit), {
   name: trainingsEinheit,
   datum:datum_comp,
-  bautraining:bauch
+  bautraining:bauch,
+  gesamtSatz:gesamtSatz,
+  reps:gesamtWiederholung
+
 
 });
  
 
 
-const val=`letzes mal hast du  ${trainingsEinheit}`
+const val=trainingsEinheit
 try {
   await AsyncStorage.setItem('training', val)
 } catch (e) {
