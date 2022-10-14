@@ -123,7 +123,7 @@ try {
      
       <Image
         style={styles.tinyLogo}
-        source={require('../assets/fitnessbilder/Beine/Beine.jpg')}
+        source={require('../assets/fitnessbilder/Brust/chest.jpg')}
       />
       </View>
       <Text>Schrägbank</Text>
@@ -146,7 +146,7 @@ try {
      
       <Image
         style={styles.tinyLogo}
-        source={require('../assets/fitnessbilder/Beine/Beine.jpg')}
+        source={require('../assets/fitnessbilder/Brust/chest.jpg')}
       />
       </View>
       <Text>Kabelturm</Text>
@@ -169,8 +169,32 @@ try {
      
       <Image
         style={styles.tinyLogo}
-        source={require('../assets/fitnessbilder/Beine/Beine.jpg')}
+        source={require('../assets/fitnessbilder/Brust/chest.jpg')}
       />
+      </View>
+      <Text>Trizeps</Text>
+        <View style={styles.row}>
+        
+        <TextInput
+        style={styles.input}
+        onChangeText={onChangeText4}
+        value={text4}
+        placeholder="Satz"
+        keyboardType="numeric"
+      />
+        <TextInput
+        style={styles.input}
+        onChangeText={setRep4}
+        value={rep4}
+        placeholder="Wiederholung"
+        keyboardType="numeric"
+      />
+     
+      <Image
+        style={styles.tinyLogo}
+        source={require('../assets/fitnessbilder/triceps/triceps.jpg')}
+      />
+     
       </View>
 
 <Button onPress={()=>{countSatz();countreps()}} title="Gesamtübung"/>
