@@ -62,7 +62,7 @@ console.log("hallo!2")
 
 }
 const trainingFinish=async()=>{
-  const datum_comp=`${datum}.${month}.${jahr}`
+  const datum_comp=`${datum}.${month}.${jahr}`;
 
 const gesamtSatz=parseInt(text1)+parseInt(text2)+parseInt(text3)
 {gesamtSatz>goal?setTitleText("Nice Workout ab nach Hause"):setTitleText(`Du hast so viel Sätze:${goal-gesamtSatz}`)}

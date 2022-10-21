@@ -154,7 +154,7 @@ const fetchData=async()=>{
   
 
       <Text style={styles.überschrift}>{greeting}</Text>
-      <Text style={styles.überschrift}>dein Letztes Trainig war{lastTraining}</Text>
+      <Text style={styles.überschrift}>dein Letztes Trainig war {lastTraining}</Text>
       <StatusBar style="auto" />
    
     <ScrollView horizontal={true}>
@@ -186,7 +186,7 @@ setLoading(false)
     <View style={styles.cardDistance} >
     <Card.Content style={styles.card}>
     <Title>Schultern</Title>
-    <Paragraph>SChulter trainieren</Paragraph>
+    <Paragraph>Schulter trainieren</Paragraph>
   </Card.Content>
   <TouchableHighlight onPress={async()=>{
     setLoading(true)
@@ -226,6 +226,31 @@ setLoading(false)
     },3000)
   }}>
   <Card.Cover  source={require('../assets/fitnessbilder/Brust/chest.jpg')} />
+  
+  
+  </TouchableHighlight>
+  <Card.Actions>
+  <View style={styles.btn} >
+
+  </View>
+   
+  </Card.Actions>
+    </View>
+    <View style={styles.cardDistance} >
+    <Card.Content style={styles.card}>
+    <Title>Alles</Title>
+    <Paragraph>Alle Trainiere</Paragraph>
+  </Card.Content>
+  <TouchableHighlight onPress={async()=>{
+setLoading(true)    
+    await setTimeout(()=>{
+
+      navigation.navigate("Alles")
+
+setLoading(false)
+    },3000)
+  }}>
+  <Card.Cover  source={require('../assets/fitnessbilder/alles.jpg')} />
   
   
   </TouchableHighlight>
