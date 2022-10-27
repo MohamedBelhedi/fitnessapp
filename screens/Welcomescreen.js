@@ -38,6 +38,7 @@ export default function Home({navigation}) {
   const [trainingsEinheit,setTEH]=useState("Beine")
   const[daten, setDaten]=useState([])
   const [store,setStore]=useState([])
+  const [view,setView]=useState({backgroundColor:"black"})
   
   // ####### Datum#####################
   const datum=JSON.stringify(new Date().getUTCDate())
@@ -87,10 +88,10 @@ useEffect(()=>{
 
 
 // fetchData()
- setInterval(() => {
+
 getStore()
   
- }, 10000);
+
 setTimeout(()=>{
 
   trainingAufruf()
@@ -160,15 +161,16 @@ const fetchData=async()=>{
     <ScrollView horizontal={true}>
     <View style={styles.row}>
     <View style={styles.cardDistance}>
-    <Card.Content style={styles.card}>
+    <Card.Content style={view}  >
     <Title>BeinTraining</Title>
     <Paragraph>Beine Trainieren</Paragraph>
   </Card.Content>
   <TouchableHighlight onPress={async()=>{
+    setView({backgroundColor:"red"})
+   
     setLoading(true)
     
      await setTimeout(()=>{
-
       navigation.navigate("Beine")
 
 setLoading(false)
@@ -177,14 +179,14 @@ setLoading(false)
   }}>
 
   
-  <Card.Cover  source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
+  <Card.Cover source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
   </TouchableHighlight>
   <Card.Actions>
 
   </Card.Actions>
     </View>
     <View style={styles.cardDistance} >
-    <Card.Content style={styles.card}>
+    <Card.Content>
     <Title>Schultern</Title>
     <Paragraph>Schulter trainieren</Paragraph>
   </Card.Content>
@@ -200,7 +202,7 @@ setLoading(false)
     
   
   }}>
-  <Card.Cover  source={require('../assets/fitnessbilder/Beine/Beine.jpg')} />
+  <Card.Cover  source={require('../assets/fitnessbilder/schulter/shoulder.jpg')} />
   
   
   </TouchableHighlight>
@@ -212,7 +214,7 @@ setLoading(false)
   </Card.Actions>
     </View>
     <View style={styles.cardDistance} >
-    <Card.Content style={styles.card}>
+    <Card.Content >
     <Title>BrustTraining</Title>
     <Paragraph>Die Brust trainieren</Paragraph>
   </Card.Content>
@@ -237,7 +239,7 @@ setLoading(false)
   </Card.Actions>
     </View>
     <View style={styles.cardDistance} >
-    <Card.Content style={styles.card}>
+    <Card.Content >
     <Title>Alles</Title>
     <Paragraph>Alle Trainiere</Paragraph>
   </Card.Content>
