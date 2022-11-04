@@ -5,6 +5,7 @@ import alles from './screens/Alles';
 import Beine from './screens/Beine';
 import Brust from './screens/Brust';
 import Schulter from './screens/Schulter';
+import Rücken from './screens/Rücken';
 
 
 import Home from './screens/Welcomescreen';
@@ -29,6 +30,7 @@ export default function App() {
       <Stack.Screen name="Brust" component={Brust} />
       <Stack.Screen name="Schulter" component={Schulter} />
       <Stack.Screen name="Alles" component={alles} />
+      <Stack.Screen name="Rücken" component={Rücken}/>
     </Stack.Navigator>
   </NavigationContainer>
   );

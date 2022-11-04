@@ -20,12 +20,16 @@ import { styles } from "../style/Style";
 
 
 const alles=()=>{
-    const [input1,setInput1]=useState("")
+    const [input1,setInput1]=useState(0)
     const [input2,setInput2]=useState("")
     const [input3,setInput3]=useState("")
     const [input4,setInput4]=useState("")
     const [titleText,setTitleText]=useState("")
     const [trainingsEinheit,setTrainingsEinheit]=useState("Alles")
+    const [running, setRunning] = useState(true);
+    const [view,setView]=useState(false)
+    const [counter1,setCounter1]=useState(60)
+    const[color,setColor]=useState({backgroundColor:"red"})
 const tag=new Date().getDate()
 const month=JSON.stringify(new Date().getUTCMonth()+1)
 const jahr=JSON.stringify(new Date().getUTCFullYear())
@@ -50,7 +54,7 @@ const trainingFinish=async()=>{
       try {
         await AsyncStorage.setItem('training', val)
       } catch (e) {
-        // saving error
+        console.log("Fehler im System",e.message)
       }
       
       
@@ -86,19 +90,90 @@ setInput3(callVal3)
 setInput4(callVal4)
 
       }
-      useEffect(()=>{
 
+const clearIputs=()=>{
+
+  setInput1("")
+  setInput2("")
+  setInput3("")
+  setInput4("")
+
+
+
+}    
+let interval;  
+      useEffect(()=>{
+      
+
+  
 
 callTheInputs()
 
-      },[])
 
+      },[interval])
+
+      const CounterReps1=()=>{
+        
+    
+    if(running){
+      setView(true)
+      setCounter1(counter1)
+       interval=setInterval(()=>{
+        let prevTime;
+        setCounter1((prevTime)=>prevTime-1)
+        if(prevTime===0){
+
+
+          setRunning(true)
+
+
+        }
+
+        console.log("")},1000)
+    }else{
+
+      setRunning(false);
+      clearInterval(interval)
+
+    }  
+
+
+
+    }
+
+   const stop=()=>{
+   
+
+    clearInterval(interval)
+    setRunning(false)
+ 
+
+   }
 
     return(
         <View style={styles.container}>
 
     <Text>{titleText}</Text>
+<Text>{
+  
+  counter1<0?clearInterval(interval)|setCounter1("Finish restart again"):counter1
 
+}
+
+</Text>
+
+<View>
+
+{view?
+  <Button onPress={()=>{setRunning(false);setCounter1(60)}} title="Restart"/>
+
+
+  :<Button onPress={CounterReps1} title="Training Counter"/>
+
+
+}
+
+</View>
         
         <View>
         <Text>laufen</Text>
@@ -117,6 +192,9 @@ callTheInputs()
         placeholder="Sätze eingeben"/>
 
         </View>
+  
+    
+
         <View>
         <Text>Brust/Arme</Text>
         <TextInput style={styles.input}
@@ -137,6 +215,8 @@ callTheInputs()
         </View>
         
         <Button onPress={()=>{trainingFinish(),saveInput()}} title="Finish"/>
+        <Button onPress={()=>{clearIputs()}} title="Clear"/>
+{ /* <Button onPress={()=>{stop()}} title="stop"/>*/}
         
         </View>
 

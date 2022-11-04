@@ -38,7 +38,7 @@ export default function Home({navigation}) {
   const [trainingsEinheit,setTEH]=useState("Beine")
   const[daten, setDaten]=useState([])
   const [store,setStore]=useState([])
-  const [view,setView]=useState({backgroundColor:"black"})
+  const [view1,setView1]=useState({backgroundColor:"black"})
   
   // ####### Datum#####################
   const datum=JSON.stringify(new Date().getUTCDate())
@@ -161,12 +161,12 @@ const fetchData=async()=>{
     <ScrollView horizontal={true}>
     <View style={styles.row}>
     <View style={styles.cardDistance}>
-    <Card.Content style={view}  >
+    <Card.Content style={view1}  >
     <Title>BeinTraining</Title>
     <Paragraph>Beine Trainieren</Paragraph>
   </Card.Content>
   <TouchableHighlight onPress={async()=>{
-    setView({backgroundColor:"red"})
+    setView1({backgroundColor:"red"})
    
     setLoading(true)
     
@@ -192,6 +192,7 @@ setLoading(false)
   </Card.Content>
   <TouchableHighlight onPress={async()=>{
     setLoading(true)
+    setView1({})
     
     await setTimeout(()=>{
       navigation.navigate("Schulter")
@@ -241,13 +242,38 @@ setLoading(false)
     <View style={styles.cardDistance} >
     <Card.Content >
     <Title>Alles</Title>
-    <Paragraph>Alle Trainiere</Paragraph>
+    <Paragraph>Alles trainieren ganz Körper</Paragraph>
   </Card.Content>
   <TouchableHighlight onPress={async()=>{
 setLoading(true)    
     await setTimeout(()=>{
 
       navigation.navigate("Alles")
+
+setLoading(false)
+    },3000)
+  }}>
+  <Card.Cover  source={require('../assets/fitnessbilder/alles.jpg')} />
+  
+  
+  </TouchableHighlight>
+  <Card.Actions>
+  <View style={styles.btn} >
+
+  </View>
+   
+  </Card.Actions>
+    </View>
+    <View style={styles.cardDistance} >
+    <Card.Content >
+    <Title>Rücken</Title>
+    <Paragraph>Rücken trainieren</Paragraph>
+  </Card.Content>
+  <TouchableHighlight onPress={async()=>{
+setLoading(true)    
+    await setTimeout(()=>{
+
+      navigation.navigate("Rücken")
 
 setLoading(false)
     },3000)
